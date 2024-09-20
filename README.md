@@ -10,12 +10,14 @@ The **Bot Platform** project aims to streamline the creation of bots using the P
 
 ### Clone the Repository
 ```bash
-git clone --recurse-submodules https://github.com/borz7zy/bot_platform.git
+git clone https://github.com/borz7zy/bot_platform.git
 cd bot_platform
 ```
 
 ### Pre-Build Steps
 ```bash
+git submodule init
+git submodule update --init --recursive
 mkdir build && cd build
 cmake ..
 ```
