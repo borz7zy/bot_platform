@@ -1,17 +1,44 @@
-#pragma once
+#ifndef MAIN_HXX
+#define MAIN_HXX
 
-#include <easy_json.hxx>
+#include <unordered_map>
 #include <string>
-#include <logprint.hxx>
 
-namespace configController
+namespace config_controller
 {
-    void testEasyJson()
+    class ConfigManager
     {
-        std::string s;
-        if (easy_json::file_get_value_string("./test.json", "configVersion", s) == 0)
+    public:
+        enum class AccessType
         {
-            LOGI("CONFIG DRIVER", "%s", s.c_str());
-        }
-    }
+            RO, // read-only
+            RW  // read-write
+        };
+
+        static ConfigManager &getInstance();
+
+        template <typename T>
+        void setConfig(const std::string &key, const T &value, AccessType access);
+
+        std::string getConfig(const std::string &key) const;
+
+        ConfigManager(const ConfigManager &) = delete;
+        ConfigManager &operator=(const ConfigManager &) = delete;
+
+    private:
+        ConfigManager() = default;
+
+        struct ConfigEntry
+        {
+            std::string value;
+            AccessType access;
+        };
+
+        std::unordered_map<std::string, ConfigEntry> configData;
+
+        template <typename T>
+        std::string toString(const T &value) const;
+    };
 };
+
+#endif
