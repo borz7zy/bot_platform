@@ -12,13 +12,18 @@ set(LIBS_DIR ${CMAKE_SOURCE_DIR}/libs)
 
 set(L_LOGPRINT ${LIBS_DIR}/logprint)
 
+set(L_EASY_JSON ${LIBS_DIR}/easy_json)
+
 set(L_THIRD_PARTY_DIR ${LIBS_DIR}/third_party)
 set(L_PAWN_DIR ${L_THIRD_PARTY_DIR}/pawn)
 
-# Add logprint library to compile
+# Add logprint library
 add_subdirectory(${L_LOGPRINT})
 
-# Add Pawn library to compile
+# Add easy_json library
+add_subdirectory(${L_EASY_JSON})
+
+# Add Pawn library
 set(PAWN_AMX_COMPILE
  ${L_PAWN_DIR}/amx/amx.c
  ${L_PAWN_DIR}/amx/amxaux.c
@@ -34,8 +39,10 @@ set(PROJECT_SOURCES
 # Includes
 include_directories(${L_LOGPRINT})
 
+include_directories(${L_EASY_JSON})
+
 include_directories(${L_PAWN_DIR}/linux)
 include_directories(${L_PAWN_DIR}/amx)
 
 add_executable(bot_platform ${PROJECT_SOURCES})
-target_link_libraries(bot_platform PRIVATE amx logprint)
+target_link_libraries(bot_platform PRIVATE amx logprint easy_json)

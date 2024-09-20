@@ -1,6 +1,7 @@
 #include <amx.h>
 #include <amxaux.h>
-#include <logprint.hxx>
+#include "main.hxx"
+// #include <easy_json.hxx>
 
 #define DEFAULT_BOT_PLATFORM_TAG "BOT PLATFORM"
 
@@ -9,6 +10,8 @@ AMX_NATIVE_INFO bstring_Natives[] = {
 
 int main()
 {
+	configController::testEasyJson();
+
 	AMX amx;
 	cell ret = 0;
 	int err;
