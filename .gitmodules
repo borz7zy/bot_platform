@@ -1,3 +1,6 @@
 [submodule "libs/third_party/pawn"]
 	path = libs/third_party/pawn
 	url = https://github.com/compuphase/pawn.git
+[submodule "libs/logprint"]
+	path = libs/logprint
+	url = git@github.com:borz7zy/logprint_lib.git
