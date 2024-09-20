@@ -1,5 +1,5 @@
 
-#ifdef _WIN32
+#ifdef _WIN32 || _WIN64
 #define LIB_EXPORT extern "C" __declspec(dllexport)
 #elif defined(__linux__)
 #define LIB_EXPORT extern "C" __attribute__((visibility("default")))
