@@ -9,8 +9,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Set libs dir
 set(LIBS_DIR ${CMAKE_SOURCE_DIR}/libs)
+
+set(L_LOGPRINT ${LIBS_DIR}/logprint)
+
 set(L_THIRD_PARTY_DIR ${LIBS_DIR}/third_party)
 set(L_PAWN_DIR ${L_THIRD_PARTY_DIR}/pawn)
+
+# Add logprint library to compile
+add_subdirectory(${L_LOGPRINT})
 
 # Add Pawn library to compile
 set(PAWN_AMX_COMPILE
@@ -25,8 +31,11 @@ set(PROJECT_SOURCES
  main.cpp
 )
 
+# Includes
+include_directories(${L_LOGPRINT})
+
 include_directories(${L_PAWN_DIR}/linux)
 include_directories(${L_PAWN_DIR}/amx)
 
 add_executable(bot_platform ${PROJECT_SOURCES})
-target_link_libraries(bot_platform PRIVATE amx)
+target_link_libraries(bot_platform PRIVATE amx logprint)

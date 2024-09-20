@@ -1,6 +1,8 @@
-#include <iostream>
 #include <amx.h>
 #include <amxaux.h>
+#include <logprint.hxx>
+
+#define DEFAULT_BOT_PLATFORM_TAG "BOT PLATFORM"
 
 AMX_NATIVE_INFO bstring_Natives[] = {
 	{NULL, NULL}};
@@ -14,14 +16,14 @@ int main()
 	err = aux_LoadProgram(&amx, "./test.amx", NULL);
 	if (err != AMX_ERR_NONE)
 	{
-		std::cerr << "Error load program: " << err << std::endl;
+		LOGE(DEFAULT_BOT_PLATFORM_TAG, "Error load AMX file: %d", err);
 		return err;
 	}
 
 	err = amx_Register(&amx, bstring_Natives, -1);
 	if (err != AMX_ERR_NONE)
 	{
-		std::cerr << "Error register native: " << err << std::endl;
+		LOGE(DEFAULT_BOT_PLATFORM_TAG, "Error register native: %d", err);
 		aux_FreeProgram(&amx);
 		return err;
 	}
@@ -34,7 +36,7 @@ int main()
 
 	if (err != AMX_ERR_NONE)
 	{
-		std::cerr << "Error execute: " << err << std::endl;
+		LOGE(DEFAULT_BOT_PLATFORM_TAG, "Error execute: %d", err);
 	}
 
 	aux_FreeProgram(&amx);
