@@ -9,7 +9,7 @@ AMX_NATIVE_INFO bstring_Natives[] = {
 
 int main()
 {
-	configController::testEasyJson();
+	// configController::testEasyJson();
 
 	AMX amx;
 	cell ret = 0;
