@@ -1,7 +1,6 @@
+#include "main.hxx"
 #include <amx.h>
 #include <amxaux.h>
-#include "main.hxx"
-// #include <easy_json.hxx>
 
 #define DEFAULT_BOT_PLATFORM_TAG "BOT PLATFORM"
 
