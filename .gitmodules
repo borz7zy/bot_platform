@@ -1,9 +1,9 @@
-[submodule "libs/third_party/pawn"]
-	path = libs/third_party/pawn
-	url = https://github.com/compuphase/pawn.git
 [submodule "libs/logprint"]
 	path = libs/logprint
 	url = https://github.com/borz7zy/logprint_lib.git
 [submodule "libs/easy_json"]
 	path = libs/easy_json
 	url = https://github.com/borz7zy/botplatform_easy_json.git
+[submodule "libs/third_party/pawn"]
+	path = libs/third_party/pawn
+	url = https://github.com/borz7zy/openmp-pawn
