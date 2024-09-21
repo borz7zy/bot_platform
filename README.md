@@ -36,4 +36,4 @@ make
 ---
 
 ### Third-Party Libraries Used in the Project
-- [compuphase/pawn](https://github.com/compuphase/pawn)
+- [compuphase/pawn](https://github.com/compuphase/pawn) [and its modification from open.mp](https://github.com/openmultiplayer/compiler)
