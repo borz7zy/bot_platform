@@ -18,7 +18,7 @@ set(L_THIRD_PARTY_DIR ${LIBS_DIR}/third_party)
 set(L_PAWN_DIR ${L_THIRD_PARTY_DIR}/pawn)
 
 # Add logprint library
-add_subdirectory(${L_LOGPRINT})
+# add_subdirectory(${L_LOGPRINT})
 
 # Add easy_json library
 add_subdirectory(${L_EASY_JSON})
@@ -37,6 +37,7 @@ target_compile_definitions(amx PRIVATE
 # Set params to build project
 set(PROJECT_SOURCES
  main.cpp
+ ${L_LOGPRINT}/logprint.cpp
  config_controller.cpp
  plugin_manager.cpp
 )
@@ -50,4 +51,4 @@ include_directories(${L_PAWN_DIR}/source/linux)
 include_directories(${L_PAWN_DIR}/source/amx)
 
 add_executable(bot_platform ${PROJECT_SOURCES})
-target_link_libraries(bot_platform PRIVATE amx logprint easy_json)
+target_link_libraries(bot_platform PRIVATE amx easy_json)
