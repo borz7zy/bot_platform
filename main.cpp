@@ -1,6 +1,6 @@
 #include "main.hxx"
 #include <stdexcept>
-#include <amx.h>
+#include "amx.h"
 #include <amxaux.h>
 #include <easy_json.hxx>
 #include <logprint.hxx>
@@ -18,27 +18,55 @@ void clearString(std::string &s)
 namespace amx_natives
 {
 	logprint AmxNativesLogs("AMX", "./logs/amx_logs.log");
-	cell AMX_NATIVE_CALL LOG_I(AMX *amx, const cell *params)
+	static cell AMX_NATIVE_CALL LOG_I(AMX *amx, const cell *params)
 	{
-		const char *str = nullptr;
-		amx_StrParam_Type(amx, params[1], str, char *);
-		if (str != nullptr)
-			AmxNativesLogs.LOGI(str);
-		return 0;
+		// int numparams = (int)(params[0] / sizeof(cell)) - 4;
+		// printf("- %d:%d:%d\n", params[0], (1 * sizeof(cell)), numparams);
+		// char *str;
+		// amx_StrParam_Type(amx, params[1], str, char *);
+		// if (str != nullptr)
+		// 	AmxNativesLogs.LOGI("%s", str);
+		cell *_cstr;
+		int _length;
+		char *_result;
+		amx_GetAddr(amx, params[1], &_cstr);
+		amx_StrLen(_cstr, &_length);
+		if (_length > 0 && (_result = (char *)malloc((_length + 1) * sizeof(*_result))) != NULL)
+		{
+			amx_GetString(_result, _cstr, sizeof(*_result) > 1, _length + 1);
+			// printf("%s\n", _result);
+			AmxNativesLogs.LOGE("%s", _result);
+			free(_result);
+		}
+		return 1;
 	}
-	cell AMX_NATIVE_CALL LOG_E(AMX *amx, const cell *params)
+	static cell AMX_NATIVE_CALL LOG_E(AMX *amx, const cell *params)
 	{
-		const char *str = nullptr;
-		amx_StrParam_Type(amx, params[1], str, char *);
-		if (str != nullptr)
-			AmxNativesLogs.LOGE(str);
-		return 0;
+		// int numparams = (int)(params[0] / sizeof(cell)) - 4;
+		// printf("- %d:%d:%d\n", params[0], (1 * sizeof(cell)), numparams);
+		//  char *str = nullptr;
+		//  amx_StrParam_Type(amx, params[1], str, char *);
+		//  if (str != nullptr)
+		//  	AmxNativesLogs.LOGE(str);
+		cell *_cstr;
+		int _length;
+		char *_result;
+		amx_GetAddr(amx, params[1], &_cstr);
+		amx_StrLen(_cstr, &_length);
+		if (_length > 0 && (_result = (char *)malloc((_length + 1) * sizeof(*_result))) != NULL)
+		{
+			amx_GetString(_result, _cstr, sizeof(*_result) > 1, _length + 1);
+			// printf("%s\n", _result);
+			AmxNativesLogs.LOGE("%s", _result);
+			free(_result);
+		}
+		return 1;
 	}
 
 	AMX_NATIVE_INFO bstring_Natives[] = {
-		{"LOGI", amx_natives::LOG_I},
-		{"LOGE", amx_natives::LOG_E},
-		{NULL, NULL}};
+		{"LOGI", LOG_I},
+		{"LOGE", LOG_E},
+		{nullptr, nullptr}};
 }
 
 int main()
