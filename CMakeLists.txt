@@ -37,6 +37,8 @@ target_compile_definitions(amx PRIVATE
 # Set params to build project
 set(PROJECT_SOURCES
  main.cpp
+ config_controller.cpp
+ plugin_manager.cpp
 )
 
 # Includes
