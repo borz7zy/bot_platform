@@ -7,12 +7,6 @@
 #include "config_controller.hxx"
 #include "plugin_manager.hxx"
 
-#define DEFAULT_BOT_PLATFORM_TAG "BOT PLATFORM"
-#define EASY_JSON_TAG " / EASY JSON"
-#define CONFIG_MANAGER_TAG " / CONFIG MANAGER"
-
-#define DEFAULT_AMX_TAG "AMX"
-
 #define CONFIG_PATH "./configCore.json"
 
 void clearString(std::string &s)
@@ -23,12 +17,13 @@ void clearString(std::string &s)
 
 namespace amx_natives
 {
+	logprint AmxNativesLogs("AMX", "./logs/amx_logs.log");
 	cell AMX_NATIVE_CALL LOG_I(AMX *amx, const cell *params)
 	{
 		const char *str = nullptr;
 		amx_StrParam_Type(amx, params[1], str, char *);
 		if (str != nullptr)
-			LOGI(DEFAULT_AMX_TAG, str);
+			AmxNativesLogs.LOGI(str);
 		return 0;
 	}
 	cell AMX_NATIVE_CALL LOG_E(AMX *amx, const cell *params)
@@ -36,7 +31,7 @@ namespace amx_natives
 		const char *str = nullptr;
 		amx_StrParam_Type(amx, params[1], str, char *);
 		if (str != nullptr)
-			LOGE(DEFAULT_AMX_TAG, str);
+			AmxNativesLogs.LOGE(str);
 		return 0;
 	}
 
@@ -48,6 +43,8 @@ namespace amx_natives
 
 int main()
 {
+	logprint CoreLogs("CORE", "./logs/core.log");
+
 	PluginManager pluginManager;
 
 	std::string pluginTestPath = "./libplugin.dylib";
@@ -69,7 +66,7 @@ int main()
 		int response_ej = easy_json::file_get_value_string(CONFIG_PATH, "configVersion", configVers);
 		if (response_ej != 0)
 		{
-			LOGE(DEFAULT_BOT_PLATFORM_TAG EASY_JSON_TAG, "Error extracting config path (configVersion): %d", response_ej);
+			CoreLogs.LOGE("Error extracting config path (configVersion): %d", response_ej);
 		}
 		else
 			config.setConfig("configVersion", configVers, ConfigManager::AccessType::RO);
@@ -77,7 +74,7 @@ int main()
 		response_ej = easy_json::file_get_value_string(CONFIG_PATH, "pluginsPath", pluginsPath);
 		if (response_ej != 0)
 		{
-			LOGE(DEFAULT_BOT_PLATFORM_TAG EASY_JSON_TAG, "Error extracting config path (pluginsPath): %d", response_ej);
+			CoreLogs.LOGE("Error extracting config path (pluginsPath): %d", response_ej);
 		}
 		else
 			config.setConfig("pluginsPath", pluginsPath, ConfigManager::AccessType::RO);
@@ -85,7 +82,7 @@ int main()
 		response_ej = easy_json::file_get_value_string(CONFIG_PATH, "mainScript", mainScript);
 		if (response_ej != 0)
 		{
-			LOGE(DEFAULT_BOT_PLATFORM_TAG EASY_JSON_TAG, "Error extracting config path (mainScript): %d", response_ej);
+			CoreLogs.LOGE("Error extracting config path (mainScript): %d", response_ej);
 		}
 		else
 			config.setConfig("mainScript", mainScript, ConfigManager::AccessType::RO);
@@ -93,7 +90,7 @@ int main()
 		response_ej = easy_json::file_get_value_string(CONFIG_PATH, "plugins", mainScript);
 		if (response_ej != 0)
 		{
-			LOGE(DEFAULT_BOT_PLATFORM_TAG EASY_JSON_TAG, "Error extracting config path (plugins): %d", response_ej);
+			CoreLogs.LOGE("Error extracting config path (plugins): %d", response_ej);
 		}
 		else
 			config.setConfig("plugins", plugins, ConfigManager::AccessType::RO);
@@ -101,14 +98,14 @@ int main()
 		response_ej = easy_json::file_get_value_bool(CONFIG_PATH, "hotReloadAMX", hotReloadAMX);
 		if (response_ej != 0)
 		{
-			LOGE(DEFAULT_BOT_PLATFORM_TAG EASY_JSON_TAG, "Error extracting config path (hotReloadAMX): %d", response_ej);
+			CoreLogs.LOGE("Error extracting config path (hotReloadAMX): %d", response_ej);
 		}
 		else
 			config.setConfig("hotReloadAMX", hotReloadAMX, ConfigManager::AccessType::RO);
 	}
 	catch (const std::exception &e)
 	{
-		LOGE(DEFAULT_BOT_PLATFORM_TAG CONFIG_MANAGER_TAG, "Error: %s", e.what());
+		CoreLogs.LOGE("Error: %s", e.what());
 	}
 
 	clearString(configVers);
@@ -125,20 +122,20 @@ int main()
 		err = aux_LoadProgram(&amx, (char *)config.getConfig("mainScript").c_str(), NULL);
 		if (err != AMX_ERR_NONE)
 		{
-			LOGE(DEFAULT_BOT_PLATFORM_TAG, "Error load AMX file: %d", err);
+			CoreLogs.LOGE("Error load AMX file: %d", err);
 			return err;
 		}
 	}
 	catch (const std::exception &e)
 	{
-		LOGE(DEFAULT_BOT_PLATFORM_TAG CONFIG_MANAGER_TAG, "Error: %s", e.what());
+		CoreLogs.LOGE("Error: %s", e.what());
 		return -1;
 	}
 
 	err = amx_Register(&amx, amx_natives::bstring_Natives, -1);
 	if (err != AMX_ERR_NONE)
 	{
-		LOGE(DEFAULT_BOT_PLATFORM_TAG, "Error register native: %d", err);
+		CoreLogs.LOGE("Error register native: %d", err);
 		aux_FreeProgram(&amx);
 		return err;
 	}
@@ -151,7 +148,7 @@ int main()
 
 	if (err != AMX_ERR_NONE)
 	{
-		LOGE(DEFAULT_BOT_PLATFORM_TAG, "Error execute: %d", err);
+		CoreLogs.LOGE("Error execute: %d", err);
 	}
 
 	aux_FreeProgram(&amx);

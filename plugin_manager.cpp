@@ -7,7 +7,7 @@
 #include <sys/stat.h>
 #include <logprint.hxx>
 
-#define DEFAULT_TAG_PLUGIN_MANAGER "PLUGIN MANAGER"
+logprint PluginLogs("PLUGIN MANAGER", "./logs/plugin_manager.log");
 
 bool fileExists(const std::string &path)
 {
@@ -29,7 +29,7 @@ bool PluginManager::loadPlugin(const std::string &pluginPath)
 {
     if (!fileExists(pluginPath))
     {
-        LOGE(DEFAULT_TAG_PLUGIN_MANAGER, "Plugin file not found: %s", pluginPath.c_str());
+        PluginLogs.LOGE("Plugin file not found: %s", pluginPath.c_str());
         return false;
     }
 
@@ -40,7 +40,7 @@ bool PluginManager::loadPlugin(const std::string &pluginPath)
         char errorBuffer[256];
         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                       NULL, GetLastError(), 0, errorBuffer, sizeof(errorBuffer), NULL);
-        LOGE(DEFAULT_TAG_PLUGIN_MANAGER, "Failed to load plugin: %s", errorBuffer);
+        PluginLogs.LOGE("Failed to load plugin: %s", errorBuffer);
         return false;
     }
 #else
@@ -50,7 +50,7 @@ bool PluginManager::loadPlugin(const std::string &pluginPath)
     if (!handle)
     {
         const char *error = dlerror();
-        LOGE(DEFAULT_TAG_PLUGIN_MANAGER, "Failed to load plugin: %s", error ? error : "unknown error");
+        PluginLogs.LOGE("Failed to load plugin: %s", error ? error : "unknown error");
         return false;
     }
 #endif
@@ -80,7 +80,7 @@ void PluginManager::executePluginFunction(const std::string &functionName)
         char errorBuffer[256];
         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                       NULL, GetLastError(), 0, errorBuffer, sizeof(errorBuffer), NULL);
-        LOGE(DEFAULT_TAG_PLUGIN_MANAGER, "Failed to load function: %s", errorBuffer);
+        PluginLogs.LOGE("Failed to load function: %s", errorBuffer);
         return;
     }
 #else
@@ -88,7 +88,7 @@ void PluginManager::executePluginFunction(const std::string &functionName)
     const char *dlsym_error = dlerror();
     if (dlsym_error)
     {
-        LOGE(DEFAULT_TAG_PLUGIN_MANAGER, "Failed to load function: %s", dlsym_error);
+        PluginLogs.LOGE("Failed to load function: %s", dlsym_error);
         return;
     }
 #endif
