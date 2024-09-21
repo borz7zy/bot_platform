@@ -1,4 +1,5 @@
 /build/
 .vscode/
 /compiler_test/
+/experiments/
 .DS_Store
