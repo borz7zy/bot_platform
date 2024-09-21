@@ -1,6 +1,5 @@
 #include "main.hxx"
 #include <stdexcept>
-#include <sstream>
 #include <amx.h>
 #include <amxaux.h>
 #include <easy_json.hxx>

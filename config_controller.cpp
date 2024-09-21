@@ -1,4 +1,5 @@
 #include "config_controller.hxx"
+#include <sstream>
 
 ConfigManager &ConfigManager::getInstance()
 {
