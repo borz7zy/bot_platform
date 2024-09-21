@@ -25,11 +25,14 @@ add_subdirectory(${L_EASY_JSON})
 
 # Add Pawn library
 set(PAWN_AMX_COMPILE
- ${L_PAWN_DIR}/amx/amx.c
- ${L_PAWN_DIR}/amx/amxaux.c
+ ${L_PAWN_DIR}/source/amx/amx.c
+ ${L_PAWN_DIR}/source/amx/amxaux.c
 )
 add_library(amx STATIC ${PAWN_AMX_COMPILE})
 set_source_files_properties(${PAWN_AMX_COMPILE} PROPERTIES LANGUAGE C)
+target_compile_definitions(amx PRIVATE 
+ -DPAWN_CELL_SIZE=32
+)
 
 # Set params to build project
 set(PROJECT_SOURCES
@@ -41,8 +44,8 @@ include_directories(${L_LOGPRINT})
 
 include_directories(${L_EASY_JSON})
 
-include_directories(${L_PAWN_DIR}/linux)
-include_directories(${L_PAWN_DIR}/amx)
+include_directories(${L_PAWN_DIR}/source/linux)
+include_directories(${L_PAWN_DIR}/source/amx)
 
 add_executable(bot_platform ${PROJECT_SOURCES})
 target_link_libraries(bot_platform PRIVATE amx logprint easy_json)

@@ -153,7 +153,7 @@ int main()
 
 	try
 	{
-		err = aux_LoadProgram(&amx, config.getConfig("mainScript").c_str(), NULL);
+		err = aux_LoadProgram(&amx, (char *)config.getConfig("mainScript").c_str(), NULL);
 		if (err != AMX_ERR_NONE)
 		{
 			LOGE(DEFAULT_BOT_PLATFORM_TAG, "Error load AMX file: %d", err);
