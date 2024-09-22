@@ -6,4 +6,4 @@
 	url = https://github.com/borz7zy/botplatform_easy_json.git
 [submodule "libs/third_party/pawn"]
 	path = libs/third_party/pawn
-	url = https://github.com/borz7zy/openmp-pawn
+	url = https://github.com/compuphase/pawn
